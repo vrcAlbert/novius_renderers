@@ -26,14 +26,19 @@ class Renderer_HasMany extends \Nos\Renderer
         return $this->template($return);
     }
 
-    public static function render_fieldset($item, $relation, $index = null, $renderer_options = array())
+    public static function render_fieldset($args = array())
     {
+        $renderer_item = \Arr::get($args, 'renderer_item', false);
+        $relation = \Arr::get($args, 'relation', false);
+        $index = \Input::get('index', \Arr::get($args, 'index', 0));
+        $renderer_options = \Arr::get($args, 'renderer_options', array());
+        $crud_item = \Arr::get($args, 'crud_item', false);
         static $auto_id_increment = 1;
-        $class = get_class($item);
+        $class = get_class($renderer_item);
         $config_file = \Config::configFile($class);
         $config = \Config::load(implode('::',$config_file), true);
         $index = \Input::get('index', $index);
-        $fieldset = \Fieldset::build_from_config($config['fieldset_fields'], $item, array('save' => false, 'auto_id' => false));
+        $fieldset = \Fieldset::build_from_config($config['fieldset_fields'], $renderer_item, array('save' => false, 'auto_id' => false));
         // Override auto_id generation so it don't use the name (because we replace it below)
         $auto_id = uniqid('auto_id_');
         // Will build hidden fields seperately
@@ -45,12 +50,12 @@ class Renderer_HasMany extends \Nos\Renderer
             }
         }
 
-        $fieldset->populate_with_instance($item);
+        $fieldset->populate_with_instance($renderer_item);
         $fieldset->form()->set_config('field_template', '<tr><th>{label}</th><td>{field}</td></tr>');
         $view_params = array(
             'fieldset' => $fieldset,
             'fields' => $fields,
-            'is_new' => $item->is_new(),
+            'is_new' => $renderer_item->is_new(),
             'index' => $index,
             'options' => $renderer_options,
         );
@@ -66,10 +71,11 @@ class Renderer_HasMany extends \Nos\Renderer
 
         \Event::trigger_function('novius_renderers.hasmany_fieldset', array(
             array(
-                'item' => &$item,
+                'item' => &$renderer_item,
                 'index' => &$index,
                 'relation' => &$relation,
-                'replaces' => &$replaces
+                'replaces' => &$replaces,
+                'crud_item' => $crud_item,
             )
         ));
 

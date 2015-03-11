@@ -21,6 +21,7 @@ require(['jquery-nos-wysiwyg'], function ($) {
         var model = $button.data('model');
         var relation = $button.data('relation');
         var order = $button.data('order');
+        var crud_item = $button.data('crud_item');
 
         $.ajax({
             type : "GET",
@@ -28,7 +29,8 @@ require(['jquery-nos-wysiwyg'], function ($) {
             data : {
                 model : model,
                 relation : relation,
-                order: order
+                order: order,
+                crud_item : crud_item
             },
             success : function(vue) {
                 var $vue = $(vue);
@@ -51,11 +53,9 @@ require(['jquery-nos-wysiwyg'], function ($) {
         var model = $button.data('model') || $button.attr('data-model');
         var relation = $button.data('relation');
         var order = $button.data('order');
+        var crud_item = $button.data('crud_item');
         var data = {};
         data.forge = {};
-
-        console.log($button);
-        console.log('model', model);
 
         //select all inputs (cannot search on name, assuming it begins with "relation", because it's possible that it doesn't
         $div.find('input, select').each(function() {
@@ -74,8 +74,7 @@ require(['jquery-nos-wysiwyg'], function ($) {
         data.model = model;
         data.relation = relation;
         data.order = order;
-
-        console.log(data);
+        data.crud_item = crud_item;
 
         $nos.ajax({
             type : "GET",
