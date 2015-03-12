@@ -36,7 +36,7 @@
         'data-model' => $model,
         'data-relation' => $relation,
         'data-order' => !empty($options['order']) ? 1 : 0,
-        'data-crud_item' => \Format::forge(array('model' => get_class($item), 'id' => $item->primary_key()))->to_json()
+        'data-crud_item' => \Format::forge(array('model' => get_class($item), 'id' => $item->id))->to_json()
     );
     ?>
     <button class="add-item-js button-add-item" <?= array_to_attr($attr) ?>><?= __('Add one item') ?></button>
