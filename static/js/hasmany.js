@@ -39,6 +39,7 @@ require(['jquery-nos-wysiwyg'], function ($) {
                 $container.data('nb-items', next);
 
                 restore_order($container.find('.item_list'));
+                $container.find('.hasmany_item:last').trigger('add_item.hasmany');
             }
         });
         e.preventDefault();
@@ -87,6 +88,7 @@ require(['jquery-nos-wysiwyg'], function ($) {
                 $div.closest('.count-items-js').data('nb-items', next);
 
                 restore_order($div.closest('.item_list'));
+                $div.closest('.item_list').find('.hasmany_item:last').trigger('add_item.hasmany');
             }
         });
         event.preventDefault();
