@@ -31,7 +31,7 @@ class Renderer_HasMany extends \Nos\Renderer
         $renderer_item = \Arr::get($args, 'renderer_item', false);
         $relation = \Arr::get($args, 'relation', false);
         $index = \Input::get('index', \Arr::get($args, 'index', 0));
-        $renderer_options = \Arr::get($args, 'renderer_options', array());
+        $renderer_options = \Arr::get($args, 'options', array());
         $crud_item = \Arr::get($args, 'crud_item', false);
         static $auto_id_increment = 1;
         $class = get_class($renderer_item);
